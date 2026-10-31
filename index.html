@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="genoffice:brief" content='{"core_hook":"Маленький ритуал из трёх касаний — открыть, задуть, прочитать, — который превращает день рождения в личный сюрприз прямо внутри Telegram.","sections":[{"title":"Сцена 1 — Открой открытку","type":"hero","brief":"Полноэкранная сцена с милым розовым градиентным фоном. По центру — закрытая открытка с объёмным видом, над ней надпись «Открой». При нажатии на открытку она плавно открывается (анимация створок), после чего происходит переход ко второй сцене.","layout":"hero_typographic","image_queries":["закрытая открытка в розовых тонах с бантом","милый розовый градиентный фон"]},{"title":"Сцена 2 — Задуй свечки","type":"content","brief":"Полноэкранная сцена с тортом по центру. Над тортом надпись «Задуй свечки». Торт украшен 5–7 свечками с анимированным пламенем. При нажатии на каждую свечку пламя гаснет с эффектом дыма и лёгких искр. Когда все свечки погашены, автоматически запускается переход к третьей сцене.","layout":"hero_split","image_queries":["праздничный торт со свечками в нежных тонах","анимированные языки пламени на свечках"]},{"title":"Сцена 3 — Поздравление","type":"summary","brief":"Финальная сцена с развёрнутым нежным поздравлением для девушки. Текст из нескольких абзацев, написанный тёплым, трогательным языком. Дополнен конфетти или мягкими падающими лепестками. Внизу может быть кнопка «Повторить» для возврата к началу.","layout":"prose","image_queries":["конфетти или лепестки роз падают на розовом фоне"]}],"meta":{"title":"С днём рождения!","language":"ru","audience":"Девушка, которой адресовано поздравление; открывается в Telegram-вебвью","length":"Одна страница с тремя полноэкранными сценами"},"version":1,"style":{"name":"Нежная открытка в розовых тонах","tone":"Трогательный, тёплый, немного сказочный — как бумажная открытка, ожившая на экране.","palette":{"primary":"#F48FB1","accent":"#FFD54F","bg":"#FFF0F5","surface":"#FFFFFF","text":"#5D4037"},"typography":{"heading":"&#39;Cormorant Garamond&#39;, &#39;Georgia&#39;, serif","body":"&#39;Nunito&#39;, &#39;Segoe UI&#39;, sans-serif","scale":"airy"},"tokens":{"radius":"24px","spacing":"20px","shadow":"0 12px 40px rgba(244, 143, 177, 0.25)"},"layout":"Вертикальная мобильная компоновка, контент по центру, ширина 100%, max-width 420px, полноэкранные сцены с плавными переходами.","density":"airy","docx_friendly":false}}'>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>С днём рождения!</title>
+<style>
+  :root{
+    --brief-primary:#F48FB1;
+    --brief-accent:#FFD54F;
+    --brief-bg:#FFF0F5;
+    --brief-surface:#FFFFFF;
+    --brief-text:#5D4037;
+    --brief-font-heading:'Cormorant Garamond','Georgia',serif;
+    --brief-font-body:'Nunito','Segoe UI',sans-serif;
+    --brief-radius:24px;
+    --brief-space:20px;
+    --brief-shadow:0 12px 40px rgba(244,143,177,0.25);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{width:100%;min-height:100%;}
+  body{
+    background:var(--brief-bg);
+    font-family:var(--brief-font-body);
+    color:var(--brief-text);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    overflow-x:hidden;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .scene{
+    width:100%;
+    max-width:420px;
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:var(--brief-space);
+    position:relative;
+    background:linear-gradient(160deg,#ffe4ee 0%,#fff0f5 45%,#ffe9f0 100%);
+    overflow:hidden;
+    transition:opacity .45s ease, transform .45s ease;
+  }
+  .scene[hidden]{display:none;}
+  .scene.fade-out{opacity:0;transform:scale(.98);}
+  .scene-title{
+    font-family:var(--brief-font-heading);
+    font-weight:600;
+    color:var(--brief-text);
+    text-align:center;
+    letter-spacing:.02em;
+    margin-bottom:calc(var(--brief-space)*1.2);
+    font-size:clamp(1.6rem,2.4rem,2.8rem);
+    line-height:1.2;
+    text-shadow:0 2px 12px rgba(244,143,177,0.18);
+    z-index:2;
+  }
+    .open-card-wrap{
+    cursor:pointer;
+    perspective:1400px;
+    width:min(78vw,300px);
+    aspect-ratio:7/9;
+    position:relative;
+    z-index:3;
+  }
+  .open-card{
+    width:100%;
+    height:100%;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:transform .75s cubic-bezier(.2,.8,.2,1);
+  }
+  .open-card.flipped{transform:rotateX(-18deg);}
+  .card-face{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border-radius:calc(var(--brief-radius)*0.75);
+    overflow:hidden;
+  }
+  /* Внутренняя открытка (нижний слой) */
+  .card-inner{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(155deg,#ffffff 0%,#fff4f8 55%,#ffe4ef 100%);
+    border-radius:calc(var(--brief-radius)*0.75);
+    box-shadow:var(--brief-shadow);
+    border:1.5px solid rgba(244,143,177,0.45);
+  }
+  .card-inner .card-back-text{
+    font-family:var(--brief-font-heading);
+    font-size:1.8rem;
+    line-height:1.25;
+    color:var(--brief-text);
+    text-align:center;
+    padding:var(--brief-space);
+    animation:cardTextPop .6s .5s cubic-bezier(.2,.8,.2,1) both;
+  }
+  @keyframes cardTextPop{
+    0%{opacity:0;transform:translateY(14px) scale(.9);}
+    100%{opacity:1;transform:translateY(0) scale(1);}
+  }
+  /* Конверт (лицевая створка) */
+    .card-front{
+    background:
+      linear-gradient(155deg,rgba(255,255,255,.35) 0%,rgba(255,255,255,0) 40%),
+      repeating-linear-gradient(90deg,rgba(244,143,177,0.03) 0 2px,transparent 2px 4px),
+      linear-gradient(150deg,#fdf1f6 0%,#ffdbe8 70%,#ffcfe2 100%);
+    border:2px solid rgba(244,143,177,0.45);
+    box-shadow:var(--brief-shadow), inset 0 0 40px rgba(244,143,177,0.12);
+    backface-visibility:hidden;
+    transform-origin:top center;
+    transition:transform .75s cubic-bezier(.2,.8,.2,1);
+  }
+  .open-card.flipped .card-front{
+    transform:rotateX(-158deg);
+  }
+  /* Линии сгиба конверта (бумага) */
+  .crease-v{
+    position:absolute;
+    top:0;left:50%;
+    width:1px;height:100%;
+    background:rgba(244,143,177,0.22);
+    transform:translateX(-50%);
+  }
+  .crease-h{
+    position:absolute;
+    top:50%;left:0;
+    width:100%;height:1px;
+    background:rgba(244,143,177,0.18);
+    transform:translateY(-50%);
+  }
+  /* Клапан конверта */
+  .flap{
+    position:absolute;
+    top:0;left:0;
+    width:100%;
+    height:52%;
+    background:linear-gradient(180deg,#f8a5c2 0%,#f483b0 100%);
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    z-index:2;
+    filter:drop-shadow(0 4px 8px rgba(244,143,177,0.35));
+  }
+    /* Марка в углу конверта */
+  .stamp{
+    position:absolute;
+    top:6%;
+    right:6%;
+    width:56px;
+    height:68px;
+    z-index:4;
+    background:linear-gradient(150deg,#fff 0%,#ffeef5 100%);
+    border:1.5px solid rgba(244,143,177,0.55);
+    box-shadow:0 3px 8px rgba(244,143,177,0.28);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:2px;
+    transform:rotate(3deg);
+  }
+  .stamp .stamp-heart{
+    font-size:1.35rem;
+    line-height:1;
+  }
+  .stamp .stamp-text{
+    font-family:var(--brief-font-body);
+    font-size:.5rem;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--brief-primary);
+  }
+  .stamp::after{
+    content:'';
+    position:absolute;
+    inset:3px;
+    border:1px dashed rgba(244,143,177,0.4);
+    pointer-events:none;
+  }
+  .bow{
+    width:36%;
+    height:auto;
+    position:relative;
+    z-index:3;
+    margin-top:-24%;
+    margin-bottom:8%;
+    filter:drop-shadow(0 5px 10px rgba(244,143,177,0.45));
+  }
+  .card-hint{
+    font-family:var(--brief-font-body);
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--brief-primary);
+    font-size:.95rem;
+    position:relative;
+    z-index:3;
+    margin-top:auto;
+    margin-bottom:16%;
+    animation:hintPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes hintPulse{
+    0%,100%{opacity:.75;transform:translateY(0);}
+    50%{opacity:1;transform:translateY(3px);}
+  }
+  .card-back-text{
+    font-family:var(--brief-font-heading);
+    font-size:1.5rem;
+    color:var(--brief-text);
+    padding:var(--brief-space);
+    text-align:center;
+  }
+  .cake-wrap{
+    width:min(78vw,300px);
+    position:relative;
+    z-index:3;
+    margin-bottom:calc(var(--brief-space)*1.5);
+    filter:drop-shadow(0 16px 30px rgba(244,143,177,0.35));
+  }
+  .cake-svg{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+    .candle{
+    cursor:pointer;
+    transform-origin:center bottom;
+    transition:transform .2s ease;
+    outline:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .candle:focus{outline:none;}
+  .candle::-moz-focus-inner{border:0;}
+  .candle:active{transform:scale(.94);}
+    .flame{
+    transition:opacity .22s ease, transform .3s ease;
+    transform-origin:center bottom;
+  }
+  .flame.out{opacity:0;transform:scale(.15);}
+  .smoke{
+    opacity:0;
+    pointer-events:none;
+  }
+  .smoke.visible{
+    animation:poof .75s ease-out forwards;
+  }
+  @keyframes poof{
+    0%{opacity:0;transform:translateY(4px) scale(.3);}
+    35%{opacity:.95;transform:translateY(-6px) scale(1);}
+    100%{opacity:0;transform:translateY(-46px) scale(2.1);}
+  }
+  .spark{
+    opacity:0;
+    pointer-events:none;
+    transform-origin:center;
+  }
+  .spark.burst{
+    animation:sparkle .85s ease-out forwards;
+  }
+  @keyframes sparkle{
+    0%{opacity:0;transform:scale(.3) rotate(0deg);}
+    25%{opacity:1;transform:scale(1.1) rotate(18deg);}
+    55%{opacity:1;transform:scale(2.1) rotate(-12deg);}
+    100%{opacity:0;transform:scale(3.2) rotate(30deg);}
+  }
+  .congrats-text{
+    background:var(--brief-surface);
+    border-radius:var(--brief-radius);
+    padding:calc(var(--brief-space)*1.4);
+    box-shadow:var(--brief-shadow);
+    max-width:100%;
+    z-index:3;
+    position:relative;
+    backdrop-filter:blur(2px);
+  }
+  .congrats-text p{
+    font-size:1.05rem;
+    line-height:1.65;
+    margin-bottom:var(--brief-space);
+    color:var(--brief-text);
+  }
+  .congrats-text p:last-child{margin-bottom:0;}
+  .congrats-text .signature{
+    font-family:var(--brief-font-heading);
+    font-size:1.4rem;
+    font-weight:600;
+    text-align:right;
+    margin-top:calc(var(--brief-space)*0.5);
+    color:var(--brief-primary);
+  }
+  .repeat-btn{
+    margin-top:calc(var(--brief-space)*1.6);
+    background:var(--brief-primary);
+    color:#fff;
+    border:none;
+    border-radius:40px;
+    padding:14px 32px;
+    font-family:var(--brief-font-body);
+    font-weight:700;
+    font-size:1rem;
+    letter-spacing:.04em;
+    cursor:pointer;
+    box-shadow:0 8px 24px rgba(244,143,177,0.4);
+    transition:transform .2s ease, box-shadow .2s ease;
+    z-index:4;
+  }
+  .repeat-btn:active{transform:scale(.96);box-shadow:0 4px 12px rgba(244,143,177,0.3);}
+  .confetti-container{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    overflow:hidden;
+  }
+  .confetti-piece{
+    position:absolute;
+    top:-20px;
+    border-radius:4px;
+    opacity:.85;
+    animation:fall linear infinite;
+  }
+  @keyframes fall{
+    0%{transform:translateY(-10vh) rotate(0deg);opacity:.9;}
+    100%{transform:translateY(110vh) rotate(720deg);opacity:.2;}
+  }
+  .petal{
+    position:absolute;
+    top:-30px;
+    border-radius:60% 40% 60% 40%;
+    background:radial-gradient(circle at 30% 30%,#ffd9e8,#f8a5c2);
+    opacity:.75;
+    animation:fallPetal linear infinite;
+  }
+  @keyframes fallPetal{
+    0%{transform:translateY(-5vh) rotate(0deg) scale(1);opacity:.8;}
+    100%{transform:translateY(110vh) rotate(360deg) scale(.7);opacity:.1;}
+  }
+  .screen-reader-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;
+  }
+  @media (min-width:460px){
+    body{background:linear-gradient(160deg,#fce4ec,#fff0f5);}
+    .scene{border-radius:32px;box-shadow:0 20px 60px rgba(244,143,177,0.2);margin:20px 0;min-height:calc(100vh - 40px);}
+  }
+</style>
+</head>
+<body>
+
+<!-- Сцена 1 — Открой открытку -->
+<section class="scene" id="scene1" data-section="hero" role="main" aria-label="Открой открытку">
+  <h1 class="scene-title">Открой</h1>
+  <div class="open-card-wrap" id="openCardWrap" role="button" tabindex="0" aria-label="Открыть поздравительную открытку">
+    <div class="open-card" id="openCard">
+      <div class="card-face card-front">
+        <span class="crease-v" aria-hidden="true"></span>
+        <span class="crease-h" aria-hidden="true"></span>
+        <div class="stamp" aria-hidden="true">
+          <span class="stamp-heart">💗</span>
+          <span class="stamp-text">почта</span>
+        </div>
+        <span class="card-hint">нажми</span>
+      </div>
+      <div class="flap" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Сцена 2 — Задуй свечки -->
+<section class="scene" id="scene2" data-section="content" hidden aria-label="Задуй свечки">
+  <h2 class="scene-title">Задуй свечки</h2>
+  <div class="cake-wrap" id="cakeWrap">
+    <svg class="cake-svg" viewBox="0 0 300 260" role="img" aria-label="Праздничный торт со свечками">
+      <!-- торт -->
+      <ellipse cx="150" cy="215" rx="110" ry="26" fill="#F8BBD0"/>
+      <rect x="55" y="150" width="190" height="65" rx="12" fill="#FCE4EC"/>
+      <rect x="70" y="120" width="160" height="42" rx="10" fill="#F8BBD0"/>
+      <rect x="85" y="95" width="130" height="32" rx="8" fill="#F48FB1"/>
+      <ellipse cx="150" cy="95" rx="65" ry="16" fill="#F48FB1"/>
+      <ellipse cx="150" cy="120" rx="80" ry="18" fill="#F8BBD0"/>
+      <ellipse cx="150" cy="150" rx="95" ry="20" fill="#FCE4EC"/>
+      <!-- крем -->
+      <path d="M70 150 Q80 140 90 150 Q100 140 110 150 Q120 140 130 150 Q140 140 150 150 Q160 140 170 150 Q180 140 190 150 Q200 140 210 150 Q220 140 230 150" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".7"/>
+      <!-- свечи -->
+      <g class="candle" data-candle="1" role="button" tabindex="0" aria-label="Задуть первую свечу">
+        <rect x="118" y="48" width="8" height="48" rx="3" fill="#F8BBD0"/>
+        <ellipse cx="122" cy="48" rx="4" ry="2" fill="#F48FB1"/>
+        <g class="flame" data-flame="1">
+          <ellipse cx="122" cy="34" rx="5" ry="10" fill="#FFB74D"/>
+          <ellipse cx="122" cy="32" rx="3" ry="6" fill="#FFF3C4"/>
+        </g>
+        <g class="smoke" data-smoke="1"><circle cx="122" cy="20" r="10" fill="#ffffff"/><circle cx="114" cy="24" r="6" fill="#ffffff"/><circle cx="130" cy="24" r="6" fill="#ffffff"/></g>
+        <g class="spark" data-spark="1"><path d="M122 24 l2.5 7 l7 2.5 l-7 2.5 l-2.5 7 l-2.5 -7 l-7 -2.5 l7 -2.5 z" fill="#FFD54F"/><path d="M116 40 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z" fill="#FFF59D"/><circle cx="129" cy="36" r="2.2" fill="#FFE082"/></g>
+      </g>
+      <g class="candle" data-candle="2" role="button" tabindex="0" aria-label="Задуть вторую свечу">
+        <rect x="136" y="40" width="8" height="56" rx="3" fill="#F8BBD0"/>
+        <ellipse cx="140" cy="40" rx="4" ry="2" fill="#F48FB1"/>
+        <g class="flame" data-flame="2">
+          <ellipse cx="140" cy="26" rx="5" ry="11" fill="#FFB74D"/>
+          <ellipse cx="140" cy="24" rx="3" ry="7" fill="#FFF3C4"/>
+        </g>
+        <g class="smoke" data-smoke="2"><circle cx="140" cy="12" r="10" fill="#ffffff"/><circle cx="132" cy="16" r="6" fill="#ffffff"/><circle cx="148" cy="16" r="6" fill="#ffffff"/></g>
+        <g class="spark" data-spark="2"><path d="M140 16 l2.5 7 l7 2.5 l-7 2.5 l-2.5 7 l-2.5 -7 l-7 -2.5 l7 -2.5 z" fill="#FFD54F"/><path d="M134 32 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z" fill="#FFF59D"/><circle cx="147" cy="28" r="2.2" fill="#FFE082"/></g>
+      </g>
+      <g class="candle" data-candle="3" role="button" tabindex="0" aria-label="Задуть третью свечу">
+        <rect x="154" y="44" width="8" height="52" rx="3" fill="#F8BBD0"/>
+        <ellipse cx="158" cy="44" rx="4" ry="2" fill="#F48FB1"/>
+        <g class="flame" data-flame="3">
+          <ellipse cx="158" cy="30" rx="5" ry="10" fill="#FFB74D"/>
+          <ellipse cx="158" cy="28" rx="3" ry="6" fill="#FFF3C4"/>
+        </g>
+        <g class="smoke" data-smoke="3"><circle cx="158" cy="16" r="10" fill="#ffffff"/><circle cx="150" cy="20" r="6" fill="#ffffff"/><circle cx="166" cy="20" r="6" fill="#ffffff"/></g>
+        <g class="spark" data-spark="3"><path d="M158 20 l2.5 7 l7 2.5 l-7 2.5 l-2.5 7 l-2.5 -7 l-7 -2.5 l7 -2.5 z" fill="#FFD54F"/><path d="M152 36 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z" fill="#FFF59D"/><circle cx="165" cy="32" r="2.2" fill="#FFE082"/></g>
+      </g>
+      <g class="candle" data-candle="4" role="button" tabindex="0" aria-label="Задуть четвёртую свечу">
+        <rect x="172" y="42" width="8" height="54" rx="3" fill="#F8BBD0"/>
+        <ellipse cx="176" cy="42" rx="4" ry="2" fill="#F48FB1"/>
+        <g class="flame" data-flame="4">
+          <ellipse cx="176" cy="28" rx="5" ry="11" fill="#FFB74D"/>
+          <ellipse cx="176" cy="26" rx="3" ry="7" fill="#FFF3C4"/>
+        </g>
+        <g class="smoke" data-smoke="4"><circle cx="176" cy="14" r="10" fill="#ffffff"/><circle cx="168" cy="18" r="6" fill="#ffffff"/><circle cx="184" cy="18" r="6" fill="#ffffff"/></g>
+        <g class="spark" data-spark="4"><path d="M176 18 l2.5 7 l7 2.5 l-7 2.5 l-2.5 7 l-2.5 -7 l-7 -2.5 l7 -2.5 z" fill="#FFD54F"/><path d="M170 34 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z" fill="#FFF59D"/><circle cx="183" cy="30" r="2.2" fill="#FFE082"/></g>
+      </g>
+      <g class="candle" data-candle="5" role="button" tabindex="0" aria-label="Задуть пятую свечу">
+        <rect x="190" y="46" width="8" height="50" rx="3" fill="#F8BBD0"/>
+        <ellipse cx="194" cy="46" rx="4" ry="2" fill="#F48FB1"/>
+        <g class="flame" data-flame="5">
+          <ellipse cx="194" cy="32" rx="5" ry="10" fill="#FFB74D"/>
+          <ellipse cx="194" cy="30" rx="3" ry="6" fill="#FFF3C4"/>
+        </g>
+        <g class="smoke" data-smoke="5"><circle cx="194" cy="18" r="10" fill="#ffffff"/><circle cx="186" cy="22" r="6" fill="#ffffff"/><circle cx="202" cy="22" r="6" fill="#ffffff"/></g>
+        <g class="spark" data-spark="5"><path d="M194 22 l2.5 7 l7 2.5 l-7 2.5 l-2.5 7 l-2.5 -7 l-7 -2.5 l7 -2.5 z" fill="#FFD54F"/><path d="M188 38 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z" fill="#FFF59D"/><circle cx="201" cy="34" r="2.2" fill="#FFE082"/></g>
+      </g>
+    </svg>
+  </div>
+  <p class="screen-reader-only" id="candleStatus">Осталось задуть: 5</p>
+</section>
+
+<!-- Сцена 3 — Поздравление -->
+<section class="scene" id="scene3" data-section="summary" hidden aria-label="Поздравление">
+  <div class="confetti-container" id="confettiBox" aria-hidden="true"></div>
+  <div class="congrats-text">
+    <p>С днём рождения! 🎂🎉</p>
+    <p>Вот ты и задула все свечки — а значит, желание уже в пути и обязательно найдёт к тебе дорогу. С праздником! 🎈</p>
+    <p>Ты невероятно классная — с тобой легко, весело и всегда есть о чём поболтать. Любые будни рядом с тобой становятся ярче и добрее.</p>
+    <p>Желаю тебе смеяться чаще, мечтать смелее и верить в себя — у тебя точно всё получится. Пусть впереди будет много поводов для гордости и радости, а рядом — только искренние люди.</p>
+    <p>С днюхой! Оставайся собой и знай, что я всегда на твоей стороне. 💪💗</p>
+    <div class="signature">от Mazy 💗</div>
+  </div>
+  <button class="repeat-btn" id="repeatBtn">Повторить</button>
+</section>
+
+<script>
+(function(){
+  const scene1=document.getElementById('scene1');
+  const scene2=document.getElementById('scene2');
+  const scene3=document.getElementById('scene3');
+  const openCardWrap=document.getElementById('openCardWrap');
+  const openCard=document.getElementById('openCard');
+  const candles=Array.from(document.querySelectorAll('.candle'));
+  const candleStatus=document.getElementById('candleStatus');
+  const repeatBtn=document.getElementById('repeatBtn');
+  const confettiBox=document.getElementById('confettiBox');
+  let litCandles=5;
+  let transitioning=false;
+  let confettiStarted=false;
+
+  function switchScene(from,to){
+    if(transitioning)return;
+    transitioning=true;
+    from.classList.add('fade-out');
+    setTimeout(()=>{
+      from.hidden=true;
+      from.classList.remove('fade-out');
+      to.hidden=false;
+      to.style.opacity='0';
+      to.style.transform='scale(.98)';
+      requestAnimationFrame(()=>{
+        to.style.transition='opacity .45s ease, transform .45s ease';
+        to.style.opacity='1';
+        to.style.transform='scale(1)';
+        setTimeout(()=>{
+          to.style.transition='';
+          transitioning=false;
+        },450);
+      });
+    },450);
+  }
+
+  function openCardHandler(){
+    if(openCard.classList.contains('flipped'))return;
+    openCard.classList.add('flipped');
+    setTimeout(()=>{
+      switchScene(scene1,scene2);
+      // сброс открытки после перехода
+      setTimeout(()=>{
+        openCard.classList.remove('flipped');
+      },800);
+    },700);
+  }
+
+  openCardWrap.addEventListener('click',openCardHandler);
+  openCardWrap.addEventListener('keydown',(e)=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();openCardHandler();}
+  });
+
+  function updateCandleStatus(){
+    candleStatus.textContent='Осталось задуть: '+litCandles;
+  }
+
+  function blowCandle(candle){
+    const flame=candle.querySelector('.flame');
+    const smoke=candle.querySelector('.smoke');
+    const spark=candle.querySelector('.spark');
+    if(!flame||flame.classList.contains('out'))return;
+    flame.classList.add('out');
+    smoke.classList.add('visible');
+    spark.classList.add('burst');
+    litCandles--;
+    updateCandleStatus();
+    if(litCandles===0){
+      setTimeout(()=>{
+        switchScene(scene2,scene3);
+        startConfetti();
+      },1200);
+    }
+  }
+
+  candles.forEach(candle=>{
+    candle.addEventListener('click',()=>blowCandle(candle));
+    candle.addEventListener('keydown',(e)=>{
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();blowCandle(candle);}
+    });
+  });
+
+  function startConfetti(){
+    if(confettiStarted)return;
+    confettiStarted=true;
+    const colors=['#F48FB1','#FFD54F','#F8BBD0','#FFAB91','#FFE082','#EC407A'];
+    for(let i=0;i<40;i++){
+      const piece=document.createElement('div');
+      piece.className='confetti-piece';
+      const size=Math.random()*8+5;
+      piece.style.width=size+'px';
+      piece.style.height=size*0.6+'px';
+      piece.style.left=Math.random()*100+'%';
+      piece.style.background=colors[Math.floor(Math.random()*colors.length)];
+      piece.style.animationDuration=(Math.random()*3+3)+'s';
+      piece.style.animationDelay=Math.random()*4+'s';
+      piece.style.transform='rotate('+Math.random()*360+'deg)';
+      confettiBox.appendChild(piece);
+    }
+    for(let i=0;i<20;i++){
+      const petal=document.createElement('div');
+      petal.className='petal';
+      const size=Math.random()*14+8;
+      petal.style.width=size+'px';
+      petal.style.height=size*0.8+'px';
+      petal.style.left=Math.random()*100+'%';
+      petal.style.animationDuration=(Math.random()*5+5)+'s';
+      petal.style.animationDelay=Math.random()*6+'s';
+      petal.style.opacity=Math.random()*0.6+0.2;
+      confettiBox.appendChild(petal);
+    }
+  }
+
+  repeatBtn.addEventListener('click',()=>{
+    if(transitioning)return;
+    // сброс свечей
+    litCandles=5;
+    updateCandleStatus();
+    candles.forEach(candle=>{
+      const flame=candle.querySelector('.flame');
+      const smoke=candle.querySelector('.smoke');
+      const spark=candle.querySelector('.spark');
+      if(flame)flame.classList.remove('out');
+      if(smoke)smoke.classList.remove('visible');
+      if(spark)spark.classList.remove('burst');
+    });
+    confettiBox.innerHTML='';
+    confettiStarted=false;
+    // переключение на сцену 1
+    switchScene(scene3,scene1);
+  });
+
+  updateCandleStatus();
+})();
+</script>
+</body>
+</html>
