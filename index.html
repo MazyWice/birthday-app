@@ -2,7 +2,6 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="genoffice:brief" content='{"core_hook":"Одна ссылка — и человек проходит маленький праздничный ритуал из трёх касаний: открыть конверт, задуть свечи и прочитать личное поздравление, оформленное в одном из 5 стилей.","sections":[{"title":"Сцена 1 — Открой конверт","type":"hero","brief":"Полноэкранная сцена с милым фоном в зависимости от выбранного стиля. В центре — бумажный конверт с откидным клапаном, бантом, маркой с сердечком и надписью «почта» в углу. Надпись «Открой» над конвертом. При нажатии конверт открывается, клапан откидывается, сцена плавно переходит к торту. Переключатель стилей доступен в углу экрана.","layout":"hero_typographic","image_queries":[]},{"title":"Сцена 2 — Задуй свечки","type":"content","brief":"Полноэкранная сцена с тортом в центре и свечками сверху. Надпись «Задуй свечки» над тортом и счётчик «Осталось задуть: N». Свечи гаснут по клику, при задувании появляется яркая белая вспышка-«пфф» и крупные золотистые звёздочки, разлетающиеся в стороны. После задувания всех свечей — автоматический переход на сцену с поздравлением. Торт, свечи и декор меняются в зависимости от выбранного стиля.","layout":"hero_typographic","image_queries":[]},{"title":"Сцена 3 — Поздравление","type":"summary","brief":"Полноэкранная сцена с текстом поздравления, подставляемым из параметров URL (?text=...), или дефолтным дружеским текстом без романтики. Внизу — подпись отправителя из параметра ?from=..., по умолчанию «от Mazy 💗». Фон и декор соответствуют выбранному стилю, по бокам — праздничные шарики.","layout":"hero_typographic","image_queries":[]},{"title":"Переключатель стилей","type":"cta","brief":"Компактная плавающая панель или кнопка в углу каждой сцены, открывающая выбор из 5 стилей: 1) Розовая бумажная открытка (базовый), 2) Золотой вечер, 3) Мятная свежесть, 4) Сиреневый закат, 5) Персиковый рассвет. Каждый стиль полностью меняет фон, конверт, торт, свечи, шарики и цветовую гамму.","layout":"cta_band","image_queries":[]},{"title":"Схема Telegram-бота","type":"content","brief":"Раздел с описанием архитектуры: пользователь отправляет боту текст и имя → бот формирует уникальную ссылку вида https://yourdomain.com/card.html?text=...&amp;from=...&amp;style=N → ссылка отправляется в чат → получатель открывает её в Telegram WebView и видит открытку с указанным текстом и именем.","layout":"prose","image_queries":[]},{"title":"Код бота","type":"content","brief":"Пример кода Telegram-бота на Python с aiogram: обработка команд /start и /card, запрос текста и имени, генерация уникальной ссылки с URL-параметрами, отправка ссылки пользователю.","layout":"prose","image_queries":[]}],"meta":{"title":"С днём рождения!","language":"ru","audience":"Пользователи Telegram, отправляющие персонализированные поздравительные открытки друзьям и близким","length":"3–5 экранов"},"version":1,"style":{"name":"Тёмный ночной праздник","tone":"Магический, загадочный, контрастный","palette":{"primary":"#BB86FC","accent":"#FFD54F","bg":"#1A1A2E","surface":"#16213E","text":"#E0E0E0"},"typography":{"heading":"&#39;Playfair Display&#39;, serif","body":"&#39;Inter&#39;, sans-serif","scale":"regular"},"tokens":{"radius":"16px","spacing":"24px","shadow":"0 20px 60px rgba(187, 134, 252, 0.3)"},"layout":"Тот же вертикальный мобильный формат, но с неоновыми акцентами и глубоким фоном","density":"regular","docx_friendly":false}}'>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>С днём рождения!</title>
 <style>
@@ -302,7 +301,7 @@
     opacity: 0.5;
   }
 
-  .cake-body {
+    .cake-body {
     width: 100%;
     height: clamp(100px, 20vw, 160px);
     background: linear-gradient(180deg, #2A1E3F, #1E1430);
@@ -310,28 +309,6 @@
     box-shadow: var(--brief-shadow), inset 0 -4px 0 rgba(0, 0, 0, 0.3);
     position: relative;
     overflow: hidden;
-  }
-
-  .cake-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 30%;
-    background: linear-gradient(180deg, rgba(187, 134, 252, 0.3), transparent);
-    border-radius: var(--brief-radius) var(--brief-radius) 0 0;
-  }
-
-  .cake-body::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 20%;
-    background: rgba(255, 213, 79, 0.15);
-    border-radius: 0 0 8px 8px;
   }
 
   .cake-plate {
@@ -351,194 +328,202 @@
     text-shadow: 0 0 20px rgba(255, 213, 79, 0.5);
   }
 
-        /* Базовые элементы торта (верхний ярус и декор) */
-  .cake-top {
-    width: 62%;
-    height: clamp(55px, 11vw, 85px);
-    margin-bottom: -3px;
+      /* Базовые ярусы торта */
+  .cake-tier {
     position: relative;
     z-index: 1;
-    border-radius: 12px 12px 4px 4px;
+    border-radius: 10px 10px 6px 6px;
   }
 
-  .cake-deco {
-    position: absolute;
+  .cake-tier-top {
+    width: 55%;
+    height: clamp(46px, 9vw, 70px);
+    margin-bottom: -4px;
     z-index: 3;
-    pointer-events: none;
   }
 
-  /* ===== Дизайны тортов по стилям ===== */
-
-  /* Стиль 1 — Розовый: классический двухъярусный с кремом */
-  .style-1 .cake-top {
-    background: linear-gradient(180deg, #FFD6E4, #FFA5C8);
-    box-shadow: inset 0 -6px 0 rgba(255, 107, 157, 0.5);
+  .cake-tier-mid {
+    width: 78%;
+    height: clamp(50px, 10vw, 78px);
+    margin-bottom: -4px;
+    z-index: 2;
   }
-  .style-1 .cake-top::before {
+
+  .cake-tier-bottom {
+    width: 100%;
+    height: clamp(60px, 12vw, 95px);
+  }
+
+  /* ===== Уникальные дизайны тортов ===== */
+
+  /* Стиль 1 — Розовый: классика со стекающим кремом */
+  .style-1 .cake-tier-top {
+    background: linear-gradient(180deg, #FFD6E4, #FF9EC2);
+    border-radius: 14px 14px 5px 5px;
+  }
+  .style-1 .cake-tier-top::after {
     content: '';
     position: absolute;
     top: 0;
-    left: 10%;
-    right: 10%;
-    height: 14px;
-    background: #FFF;
-    border-radius: 0 0 10px 10px;
-    opacity: 0.9;
-  }
-  .style-1 .cake-body {
-    background: linear-gradient(180deg, #FFB6D3, #F48FB1);
-    border-radius: 14px 14px 8px 8px;
-    box-shadow: inset 0 -8px 0 rgba(244, 143, 177, 0.6);
-  }
-  .style-1 .cake-body::after {
-    background: repeating-linear-gradient(90deg, #FFF 0 12px, transparent 12px 22px);
-    height: 14px;
-    opacity: 0.7;
-  }
-  .style-1 .cake-deco {
-    width: 100%;
-    height: 8px;
-    top: -20px;
-    left: 0;
-    background: radial-gradient(circle at 50% 50%, #FF6B9D 2px, transparent 3px);
-    background-size: 16px 8px;
-    opacity: 0.5;
-  }
-
-  /* Стиль 2 — Золотой: свадебный многоярусный с каплями крема */
-  .style-2 .cake-top {
-    width: 52%;
-    background: linear-gradient(180deg, #FFF8DC, #F0D48A);
-    border-radius: 6px;
-    box-shadow: inset 0 -4px 0 rgba(201, 162, 39, 0.5);
-  }
-  .style-2 .cake-top::before {
-    content: '';
-    position: absolute;
-    top: 6px;
     left: 0;
     right: 0;
-    height: 10px;
+    height: 12px;
+    background: #FFF;
+    border-radius: 14px 14px 0 0;
+    opacity: 0.9;
+  }
+  .style-1 .cake-tier-mid {
+    background: linear-gradient(180deg, #FFB6D3, #F48FB1);
+    border-radius: 10px 10px 5px 5px;
+  }
+  .style-1 .cake-tier-bottom {
+    background: linear-gradient(180deg, #F8A9C5, #EC7BA7);
+    border-radius: 12px 12px 8px 8px;
+    box-shadow: var(--brief-shadow);
+  }
+  .style-1 .cake-tier-bottom::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: #FFF;
+    opacity: 0.55;
+    border-radius: 0 0 40% 40%;
+  }
+
+  /* Стиль 2 — Золотой: свадебный трёхъярусный с каплями */
+  .style-2 .cake-tier-top {
+    background: linear-gradient(180deg, #FFF8DC, #F0D48A);
+    border-radius: 6px;
+  }
+  .style-2 .cake-tier-top::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    height: 8px;
     background: repeating-linear-gradient(90deg, #FFF 0 8px, transparent 8px 16px);
     opacity: 0.6;
   }
-  .style-2 .cake-body {
+  .style-2 .cake-tier-mid {
     background: linear-gradient(180deg, #FFF3C4, #E6C878);
+    border-radius: 8px;
+  }
+  .style-2 .cake-tier-bottom {
+    background: linear-gradient(180deg, #F4D98C, #D8B457);
     border-radius: 10px;
-    box-shadow: inset 0 -8px 0 rgba(201, 162, 39, 0.4);
+    box-shadow: var(--brief-shadow);
   }
-  .style-2 .cake-body::after {
-    background: linear-gradient(180deg, transparent 40%, #C9A227 40%, #C9A227 55%, transparent 55%);
-    height: 100%;
-    opacity: 0.3;
-  }
-  .style-2 .cake-deco {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #FFF176;
-    box-shadow: 18px 6px 0 #FFF176, 36px 0 0 #FFF176;
-    top: -6px;
-    right: 18%;
+  .style-2 .cake-tier-bottom::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 12%;
+    right: 12%;
+    height: 14px;
+    background:
+      radial-gradient(circle at 10% 50%, #FFF 5px, transparent 6px),
+      radial-gradient(circle at 40% 50%, #FFF 5px, transparent 6px),
+      radial-gradient(circle at 70% 50%, #FFF 5px, transparent 6px),
+      radial-gradient(circle at 90% 50%, #FFF 5px, transparent 6px);
+    opacity: 0.7;
   }
 
   /* Стиль 3 — Мятный: тортик-облачко с зефиром */
-  .style-3 .cake-top {
-    width: 68%;
+  .style-3 .cake-tier-top {
     background: linear-gradient(180deg, #D7F3F6, #9FE0E8);
-    border-radius: 50% 50% 6px 6px / 40% 40% 6px 6px;
+    border-radius: 50% 50% 10px 10px / 55% 55% 10px 10px;
   }
-  .style-3 .cake-body {
+  .style-3 .cake-tier-mid {
+    background: linear-gradient(180deg, #C2ECF1, #8BD5DE);
+    border-radius: 50% 50% 10px 10px / 45% 45% 10px 10px;
+  }
+  .style-3 .cake-tier-bottom {
     background: linear-gradient(180deg, #B2EBF2, #80DEEA);
-    border-radius: 0 0 50% 50% / 0 0 36px 36px;
+    border-radius: 0 0 50% 50% / 0 0 40px 40px;
+    box-shadow: var(--brief-shadow);
   }
-  .style-3 .cake-body::before {
-    background: radial-gradient(circle at 20% 30%, #FFF 3px, transparent 4px),
-                radial-gradient(circle at 70% 20%, #FFF 3px, transparent 4px),
-                radial-gradient(circle at 45% 60%, #FFF 4px, transparent 5px);
-    height: 100%;
-    opacity: 0.7;
-  }
-  .style-3 .cake-deco {
-    width: 100%;
-    height: 6px;
-    top: -24px;
-    background: repeating-linear-gradient(90deg, #4DB6AC 0 10px, transparent 10px 20px);
-    border-radius: 50%;
-    opacity: 0.6;
+  .style-3 .cake-tier-bottom::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 22% 30%, #FFF 3px, transparent 4px),
+      radial-gradient(circle at 70% 22%, #FFF 3px, transparent 4px),
+      radial-gradient(circle at 45% 60%, #FFF 4px, transparent 5px),
+      radial-gradient(circle at 85% 55%, #FFF 3px, transparent 4px);
+    opacity: 0.75;
   }
 
-  /* Стиль 4 — Сиреневый: кусочек торта-пирога с вишней */
-  .style-4 .cake-top {
-    width: 70%;
+  /* Стиль 4 — Сиреневый: пирог-слоёнка с ягодами */
+  .style-4 .cake-tier-top {
     background: linear-gradient(180deg, #EDD2F2, #D9AEE0);
-    border-radius: 4px 4px 0 0;
+    border-radius: 6px 6px 2px 2px;
   }
-  .style-4 .cake-top::before {
+  .style-4 .cake-tier-top::after {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     background: #E91E63;
     border-radius: 50%;
-    box-shadow: 0 0 8px rgba(233, 30, 99, 0.7);
+    box-shadow: 0 0 8px rgba(233, 30, 99, 0.6);
   }
-  .style-4 .cake-body {
-    background: linear-gradient(180deg, #E1BEE7, #BA68C8);
-    border-radius: 0 0 8px 8px;
+  .style-4 .cake-tier-mid {
+    background: linear-gradient(180deg, #E8C7EE, #CE93D8);
+    border-radius: 4px;
   }
-  .style-4 .cake-body::after {
-    background: repeating-linear-gradient(90deg, transparent 0 14px, #9C27B0 14px 16px);
-    height: 100%;
-    opacity: 0.25;
-  }
-  .style-4 .cake-deco {
-    width: 16px;
-    height: 16px;
-    background: #F48FB1;
-    border-radius: 50%;
-    top: -8px;
-    left: 12%;
-    box-shadow: 24px 4px 0 #F48FB1;
-  }
-
-  /* Стиль 5 — Персиковый: домик-пряник с посыпкой */
-  .style-5 .cake-top {
-    width: 58%;
-    background: linear-gradient(180deg, #FFE5C2, #FFC98A);
-    border-radius: 8px 8px 0 0;
-  }
-  .style-5 .cake-top::before {
+  .style-4 .cake-tier-mid::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 30% 40%, #FF8A65 2px, transparent 3px),
-                radial-gradient(circle at 60% 70%, #FFD700 2px, transparent 3px),
-                radial-gradient(circle at 80% 30%, #FF7043 2px, transparent 3px);
-    background-size: 20px 20px;
+    inset: 0;
+    background: repeating-linear-gradient(90deg, transparent 0 16px, #9C27B0 16px 19px);
+    opacity: 0.25;
+  }
+  .style-4 .cake-tier-bottom {
+    background: linear-gradient(180deg, #E1BEE7, #BA68C8);
+    border-radius: 0 0 10px 10px;
+    box-shadow: var(--brief-shadow);
+  }
+
+  /* Стиль 5 — Персиковый: пряничный домик с посыпкой */
+  .style-5 .cake-tier-top {
+    background: linear-gradient(180deg, #FFE5C2, #FFC98A);
+    border-radius: 10px 10px 3px 3px;
+  }
+  .style-5 .cake-tier-top::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 40%, #FF8A65 2px, transparent 3px),
+      radial-gradient(circle at 60% 70%, #FFD700 2px, transparent 3px),
+      radial-gradient(circle at 80% 30%, #FF7043 2px, transparent 3px),
+      radial-gradient(circle at 45% 20%, #FFF 2px, transparent 3px);
+    background-size: 22px 22px;
     opacity: 0.5;
   }
-  .style-5 .cake-body {
-    background: linear-gradient(180deg, #FFE0B2, #FFB74D);
-    border-radius: 6px 6px 10px 10px;
+  .style-5 .cake-tier-mid {
+    background: linear-gradient(180deg, #FFDCB0, #FFB74D);
+    border-radius: 6px;
   }
-  .style-5 .cake-body::after {
+  .style-5 .cake-tier-mid::after {
+    content: '';
+    position: absolute;
+    inset: 0;
     background: repeating-linear-gradient(45deg, #FFF 0 6px, transparent 6px 12px);
-    height: 100%;
-    opacity: 0.35;
+    opacity: 0.3;
   }
-  .style-5 .cake-deco {
-    width: 100%;
-    height: 6px;
-    top: -22px;
-    background: repeating-linear-gradient(90deg, #FF7043 0 12px, #FFD700 12px 24px);
-    opacity: 0.6;
+  .style-5 .cake-tier-bottom {
+    background: linear-gradient(180deg, #FFD29A, #FFA040);
+    border-radius: 8px 8px 12px 12px;
+    box-shadow: var(--brief-shadow);
   }
 
   /* Вариации конверта по стилям */
@@ -863,9 +848,9 @@
           <div class="candle" data-candle="4" onclick="blowCandle(this)"></div>
           <div class="candle" data-candle="5" onclick="blowCandle(this)"></div>
         </div>
-        <div class="cake-deco"></div>
-        <div class="cake-top"></div>
-        <div class="cake-body"></div>
+        <div class="cake-tier cake-tier-top"></div>
+        <div class="cake-tier cake-tier-mid"></div>
+        <div class="cake-body cake-tier-bottom"></div>
         <div class="cake-plate"></div>
       </div>
       <p class="counter" id="counter">Осталось задуть: 5</p>
