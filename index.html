@@ -2,602 +2,1012 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="genoffice:brief" content='{"core_hook":"Маленький ритуал из трёх касаний — открыть, задуть, прочитать, — который превращает день рождения в личный сюрприз прямо внутри Telegram.","sections":[{"title":"Сцена 1 — Открой открытку","type":"hero","brief":"Полноэкранная сцена с милым розовым градиентным фоном. По центру — закрытая открытка с объёмным видом, над ней надпись «Открой». При нажатии на открытку она плавно открывается (анимация створок), после чего происходит переход ко второй сцене.","layout":"hero_typographic","image_queries":["закрытая открытка в розовых тонах с бантом","милый розовый градиентный фон"]},{"title":"Сцена 2 — Задуй свечки","type":"content","brief":"Полноэкранная сцена с тортом по центру. Над тортом надпись «Задуй свечки». Торт украшен 5–7 свечками с анимированным пламенем. При нажатии на каждую свечку пламя гаснет с эффектом дыма и лёгких искр. Когда все свечки погашены, автоматически запускается переход к третьей сцене.","layout":"hero_split","image_queries":["праздничный торт со свечками в нежных тонах","анимированные языки пламени на свечках"]},{"title":"Сцена 3 — Поздравление","type":"summary","brief":"Финальная сцена с развёрнутым нежным поздравлением для девушки. Текст из нескольких абзацев, написанный тёплым, трогательным языком. Дополнен конфетти или мягкими падающими лепестками. Внизу может быть кнопка «Повторить» для возврата к началу.","layout":"prose","image_queries":["конфетти или лепестки роз падают на розовом фоне"]}],"meta":{"title":"С днём рождения!","language":"ru","audience":"Девушка, которой адресовано поздравление; открывается в Telegram-вебвью","length":"Одна страница с тремя полноэкранными сценами"},"version":1,"style":{"name":"Нежная открытка в розовых тонах","tone":"Трогательный, тёплый, немного сказочный — как бумажная открытка, ожившая на экране.","palette":{"primary":"#F48FB1","accent":"#FFD54F","bg":"#FFF0F5","surface":"#FFFFFF","text":"#5D4037"},"typography":{"heading":"&#39;Cormorant Garamond&#39;, &#39;Georgia&#39;, serif","body":"&#39;Nunito&#39;, &#39;Segoe UI&#39;, sans-serif","scale":"airy"},"tokens":{"radius":"24px","spacing":"20px","shadow":"0 12px 40px rgba(244, 143, 177, 0.25)"},"layout":"Вертикальная мобильная компоновка, контент по центру, ширина 100%, max-width 420px, полноэкранные сцены с плавными переходами.","density":"airy","docx_friendly":false}}'>
+<meta name="genoffice:brief" content='{"core_hook":"Одна ссылка — и человек проходит маленький праздничный ритуал из трёх касаний: открыть конверт, задуть свечи и прочитать личное поздравление, оформленное в одном из 5 стилей.","sections":[{"title":"Сцена 1 — Открой конверт","type":"hero","brief":"Полноэкранная сцена с милым фоном в зависимости от выбранного стиля. В центре — бумажный конверт с откидным клапаном, бантом, маркой с сердечком и надписью «почта» в углу. Надпись «Открой» над конвертом. При нажатии конверт открывается, клапан откидывается, сцена плавно переходит к торту. Переключатель стилей доступен в углу экрана.","layout":"hero_typographic","image_queries":[]},{"title":"Сцена 2 — Задуй свечки","type":"content","brief":"Полноэкранная сцена с тортом в центре и свечками сверху. Надпись «Задуй свечки» над тортом и счётчик «Осталось задуть: N». Свечи гаснут по клику, при задувании появляется яркая белая вспышка-«пфф» и крупные золотистые звёздочки, разлетающиеся в стороны. После задувания всех свечей — автоматический переход на сцену с поздравлением. Торт, свечи и декор меняются в зависимости от выбранного стиля.","layout":"hero_typographic","image_queries":[]},{"title":"Сцена 3 — Поздравление","type":"summary","brief":"Полноэкранная сцена с текстом поздравления, подставляемым из параметров URL (?text=...), или дефолтным дружеским текстом без романтики. Внизу — подпись отправителя из параметра ?from=..., по умолчанию «от Mazy 💗». Фон и декор соответствуют выбранному стилю, по бокам — праздничные шарики.","layout":"hero_typographic","image_queries":[]},{"title":"Переключатель стилей","type":"cta","brief":"Компактная плавающая панель или кнопка в углу каждой сцены, открывающая выбор из 5 стилей: 1) Розовая бумажная открытка (базовый), 2) Золотой вечер, 3) Мятная свежесть, 4) Сиреневый закат, 5) Персиковый рассвет. Каждый стиль полностью меняет фон, конверт, торт, свечи, шарики и цветовую гамму.","layout":"cta_band","image_queries":[]},{"title":"Схема Telegram-бота","type":"content","brief":"Раздел с описанием архитектуры: пользователь отправляет боту текст и имя → бот формирует уникальную ссылку вида https://yourdomain.com/card.html?text=...&amp;from=...&amp;style=N → ссылка отправляется в чат → получатель открывает её в Telegram WebView и видит открытку с указанным текстом и именем.","layout":"prose","image_queries":[]},{"title":"Код бота","type":"content","brief":"Пример кода Telegram-бота на Python с aiogram: обработка команд /start и /card, запрос текста и имени, генерация уникальной ссылки с URL-параметрами, отправка ссылки пользователю.","layout":"prose","image_queries":[]}],"meta":{"title":"С днём рождения!","language":"ru","audience":"Пользователи Telegram, отправляющие персонализированные поздравительные открытки друзьям и близким","length":"3–5 экранов"},"version":1,"style":{"name":"Тёмный ночной праздник","tone":"Магический, загадочный, контрастный","palette":{"primary":"#BB86FC","accent":"#FFD54F","bg":"#1A1A2E","surface":"#16213E","text":"#E0E0E0"},"typography":{"heading":"&#39;Playfair Display&#39;, serif","body":"&#39;Inter&#39;, sans-serif","scale":"regular"},"tokens":{"radius":"16px","spacing":"24px","shadow":"0 20px 60px rgba(187, 134, 252, 0.3)"},"layout":"Тот же вертикальный мобильный формат, но с неоновыми акцентами и глубоким фоном","density":"regular","docx_friendly":false}}'>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>С днём рождения!</title>
 <style>
-  :root{
-    --brief-primary:#F48FB1;
-    --brief-accent:#FFD54F;
-    --brief-bg:#FFF0F5;
-    --brief-surface:#FFFFFF;
-    --brief-text:#5D4037;
-    --brief-font-heading:'Cormorant Garamond','Georgia',serif;
-    --brief-font-body:'Nunito','Segoe UI',sans-serif;
-    --brief-radius:24px;
-    --brief-space:20px;
-    --brief-shadow:0 12px 40px rgba(244,143,177,0.25);
+  :root {
+    --brief-primary: #BB86FC;
+    --brief-accent: #FFD54F;
+    --brief-bg: #1A1A2E;
+    --brief-surface: #16213E;
+    --brief-text: #E0E0E0;
+    --brief-font-heading: 'Playfair Display', serif;
+    --brief-font-body: 'Inter', sans-serif;
+    --brief-radius: 16px;
+    --brief-spacing: 24px;
+    --brief-shadow: 0 20px 60px rgba(187, 134, 252, 0.3);
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html,body{width:100%;min-height:100%;}
-  body{
-    background:var(--brief-bg);
-    font-family:var(--brief-font-body);
-    color:var(--brief-text);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    overflow-x:hidden;
-    -webkit-tap-highlight-color:transparent;
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
-  .scene{
-    width:100%;
-    max-width:420px;
-    min-height:100vh;
-    min-height:100dvh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding:var(--brief-space);
-    position:relative;
-    background:linear-gradient(160deg,#ffe4ee 0%,#fff0f5 45%,#ffe9f0 100%);
-    overflow:hidden;
-    transition:opacity .45s ease, transform .45s ease;
+
+  body {
+    background: var(--brief-bg);
+    color: var(--brief-text);
+    font-family: var(--brief-font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
   }
-  .scene[hidden]{display:none;}
-  .scene.fade-out{opacity:0;transform:scale(.98);}
-  .scene-title{
-    font-family:var(--brief-font-heading);
-    font-weight:600;
-    color:var(--brief-text);
-    text-align:center;
-    letter-spacing:.02em;
-    margin-bottom:calc(var(--brief-space)*1.2);
-    font-size:clamp(1.6rem,2.4rem,2.8rem);
-    line-height:1.2;
-    text-shadow:0 2px 12px rgba(244,143,177,0.18);
-    z-index:2;
+
+  h1, h2, h3, h4, .display-heading {
+    font-family: var(--brief-font-heading);
+    color: var(--brief-text);
+    line-height: 1.2;
   }
-    .open-card-wrap{
-    cursor:pointer;
-    perspective:1400px;
-    width:min(78vw,300px);
-    aspect-ratio:7/9;
-    position:relative;
-    z-index:3;
+
+  .hero-scene {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--brief-spacing);
+    position: relative;
+    background: radial-gradient(ellipse at 50% 30%, rgba(187, 134, 252, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 213, 79, 0.08) 0%, transparent 50%),
+                var(--brief-bg);
+    overflow: hidden;
   }
-  .open-card{
-    width:100%;
-    height:100%;
-    position:relative;
-    transform-style:preserve-3d;
-    transition:transform .75s cubic-bezier(.2,.8,.2,1);
-  }
-  .open-card.flipped{transform:rotateX(-18deg);}
-  .card-face{
-    position:absolute;
-    inset:0;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    border-radius:calc(var(--brief-radius)*0.75);
-    overflow:hidden;
-  }
-  /* Внутренняя открытка (нижний слой) */
-  .card-inner{
-    position:absolute;
-    inset:0;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(155deg,#ffffff 0%,#fff4f8 55%,#ffe4ef 100%);
-    border-radius:calc(var(--brief-radius)*0.75);
-    box-shadow:var(--brief-shadow);
-    border:1.5px solid rgba(244,143,177,0.45);
-  }
-  .card-inner .card-back-text{
-    font-family:var(--brief-font-heading);
-    font-size:1.8rem;
-    line-height:1.25;
-    color:var(--brief-text);
-    text-align:center;
-    padding:var(--brief-space);
-    animation:cardTextPop .6s .5s cubic-bezier(.2,.8,.2,1) both;
-  }
-  @keyframes cardTextPop{
-    0%{opacity:0;transform:translateY(14px) scale(.9);}
-    100%{opacity:1;transform:translateY(0) scale(1);}
-  }
-  /* Конверт (лицевая створка) */
-    .card-front{
+
+  .hero-scene::before {
+    content: '';
+    position: absolute;
+    inset: 0;
     background:
-      linear-gradient(155deg,rgba(255,255,255,.35) 0%,rgba(255,255,255,0) 40%),
-      repeating-linear-gradient(90deg,rgba(244,143,177,0.03) 0 2px,transparent 2px 4px),
-      linear-gradient(150deg,#fdf1f6 0%,#ffdbe8 70%,#ffcfe2 100%);
-    border:2px solid rgba(244,143,177,0.45);
-    box-shadow:var(--brief-shadow), inset 0 0 40px rgba(244,143,177,0.12);
-    backface-visibility:hidden;
-    transform-origin:top center;
-    transition:transform .75s cubic-bezier(.2,.8,.2,1);
+      radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      radial-gradient(circle at 85% 65%, rgba(255, 255, 255, 0.02) 2px, transparent 2px),
+      radial-gradient(circle at 45% 85%, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 80px 80px, 120px 120px, 100px 100px;
+    pointer-events: none;
   }
-  .open-card.flipped .card-front{
-    transform:rotateX(-158deg);
+
+  .scene-inner {
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(16px, 4vw, 40px);
   }
-  /* Линии сгиба конверта (бумага) */
-  .crease-v{
-    position:absolute;
-    top:0;left:50%;
-    width:1px;height:100%;
-    background:rgba(244,143,177,0.22);
-    transform:translateX(-50%);
+
+  .scene-title {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 30px rgba(187, 134, 252, 0.4);
+    animation: fadeInDown 0.8s ease-out;
   }
-  .crease-h{
-    position:absolute;
-    top:50%;left:0;
-    width:100%;height:1px;
-    background:rgba(244,143,177,0.18);
-    transform:translateY(-50%);
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-  /* Клапан конверта */
-  .flap{
-    position:absolute;
-    top:0;left:0;
-    width:100%;
-    height:52%;
-    background:linear-gradient(180deg,#f8a5c2 0%,#f483b0 100%);
-    clip-path:polygon(0 0,100% 0,50% 100%);
-    z-index:2;
-    filter:drop-shadow(0 4px 8px rgba(244,143,177,0.35));
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-    /* Марка в углу конверта */
-  .stamp{
-    position:absolute;
-    top:6%;
-    right:6%;
-    width:56px;
-    height:68px;
-    z-index:4;
-    background:linear-gradient(150deg,#fff 0%,#ffeef5 100%);
-    border:1.5px solid rgba(244,143,177,0.55);
-    box-shadow:0 3px 8px rgba(244,143,177,0.28);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:2px;
-    transform:rotate(3deg);
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
   }
-  .stamp .stamp-heart{
-    font-size:1.35rem;
-    line-height:1;
+
+  /* Конверт */
+  .envelope {
+    width: min(320px, 80vw);
+    aspect-ratio: 16/10;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
   }
-  .stamp .stamp-text{
-    font-family:var(--brief-font-body);
-    font-size:.5rem;
-    font-weight:700;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    color:var(--brief-primary);
+
+  .envelope:hover {
+    transform: translateY(-6px);
   }
-  .stamp::after{
-    content:'';
-    position:absolute;
-    inset:3px;
-    border:1px dashed rgba(244,143,177,0.4);
-    pointer-events:none;
+
+  .envelope-back {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #2A1E3F, #1E1430);
+    border-radius: var(--brief-radius);
+    box-shadow: var(--brief-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
-  .bow{
-    width:36%;
-    height:auto;
-    position:relative;
-    z-index:3;
-    margin-top:-24%;
-    margin-bottom:8%;
-    filter:drop-shadow(0 5px 10px rgba(244,143,177,0.45));
+
+  .envelope-fold-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background: linear-gradient(to right, #3D2A5C, #2A1E3F);
+    border-radius: var(--brief-radius) 0 0 var(--brief-radius);
+    clip-path: polygon(0 0, 100% 15%, 100% 85%, 0 100%);
   }
-  .card-hint{
-    font-family:var(--brief-font-body);
-    font-weight:700;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--brief-primary);
-    font-size:.95rem;
-    position:relative;
-    z-index:3;
-    margin-top:auto;
-    margin-bottom:16%;
-    animation:hintPulse 1.8s ease-in-out infinite;
+
+  .envelope-fold-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background: linear-gradient(to left, #3D2A5C, #2A1E3F);
+    border-radius: 0 var(--brief-radius) var(--brief-radius) 0;
+    clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 85%);
   }
-  @keyframes hintPulse{
-    0%,100%{opacity:.75;transform:translateY(0);}
-    50%{opacity:1;transform:translateY(3px);}
+
+  .envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55%;
+    background: linear-gradient(180deg, #4A3670, #2A1E3F);
+    border-radius: var(--brief-radius) var(--brief-radius) 0 0;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top;
+    transition: transform 0.5s ease;
+    z-index: 2;
   }
-  .card-back-text{
-    font-family:var(--brief-font-heading);
-    font-size:1.5rem;
-    color:var(--brief-text);
-    padding:var(--brief-space);
-    text-align:center;
+
+  .envelope.open .envelope-flap {
+    transform: rotateX(180deg);
   }
-  .cake-wrap{
-    width:min(78vw,300px);
-    position:relative;
-    z-index:3;
-    margin-bottom:calc(var(--brief-space)*1.5);
-    filter:drop-shadow(0 16px 30px rgba(244,143,177,0.35));
+
+  .envelope-stamp {
+    position: absolute;
+    top: 12%;
+    right: 8%;
+    width: 50px;
+    height: 60px;
+    background: var(--brief-surface);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 3;
   }
-  .cake-svg{
-    width:100%;
-    height:auto;
-    display:block;
+
+  .envelope-stamp svg {
+    width: 24px;
+    height: 24px;
   }
-    .candle{
-    cursor:pointer;
-    transform-origin:center bottom;
-    transition:transform .2s ease;
-    outline:none;
-    -webkit-tap-highlight-color:transparent;
+
+  .envelope-stamp span {
+    font-size: 0.5rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--brief-text);
+    opacity: 0.7;
   }
-  .candle:focus{outline:none;}
-  .candle::-moz-focus-inner{border:0;}
-  .candle:active{transform:scale(.94);}
-    .flame{
-    transition:opacity .22s ease, transform .3s ease;
-    transform-origin:center bottom;
+
+  .envelope-bow {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: flex;
+    gap: 6px;
   }
-  .flame.out{opacity:0;transform:scale(.15);}
-  .smoke{
-    opacity:0;
-    pointer-events:none;
+
+  .envelope-bow::before,
+  .envelope-bow::after {
+    content: '';
+    width: 35px;
+    height: 20px;
+    background: var(--brief-primary);
+    border-radius: 50%;
+    opacity: 0.7;
   }
-  .smoke.visible{
-    animation:poof .75s ease-out forwards;
+
+  .envelope-bow::before {
+    transform: rotate(-30deg);
   }
-  @keyframes poof{
-    0%{opacity:0;transform:translateY(4px) scale(.3);}
-    35%{opacity:.95;transform:translateY(-6px) scale(1);}
-    100%{opacity:0;transform:translateY(-46px) scale(2.1);}
+
+  .envelope-bow::after {
+    transform: rotate(30deg);
   }
-  .spark{
-    opacity:0;
-    pointer-events:none;
-    transform-origin:center;
+
+  .envelope-label {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brief-text);
+    opacity: 0.5;
+    z-index: 3;
   }
-  .spark.burst{
-    animation:sparkle .85s ease-out forwards;
+
+  /* Торт */
+  .cake-scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(12px, 2vw, 24px);
+    animation: fadeInUp 0.8s ease-out;
   }
-  @keyframes sparkle{
-    0%{opacity:0;transform:scale(.3) rotate(0deg);}
-    25%{opacity:1;transform:scale(1.1) rotate(18deg);}
-    55%{opacity:1;transform:scale(2.1) rotate(-12deg);}
-    100%{opacity:0;transform:scale(3.2) rotate(30deg);}
+
+  .cake {
+    position: relative;
+    width: min(280px, 70vw);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  .congrats-text{
-    background:var(--brief-surface);
-    border-radius:var(--brief-radius);
-    padding:calc(var(--brief-space)*1.4);
-    box-shadow:var(--brief-shadow);
-    max-width:100%;
-    z-index:3;
-    position:relative;
-    backdrop-filter:blur(2px);
+
+  .cake-candles {
+    display: flex;
+    gap: clamp(8px, 2vw, 16px);
+    margin-bottom: -4px;
+    z-index: 2;
   }
-  .congrats-text p{
-    font-size:1.05rem;
-    line-height:1.65;
-    margin-bottom:var(--brief-space);
-    color:var(--brief-text);
+
+  .candle {
+    width: clamp(8px, 2vw, 14px);
+    height: clamp(30px, 6vw, 50px);
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--brief-primary),
+      var(--brief-primary) 4px,
+      #3D2A5C 4px,
+      #3D2A5C 8px
+    );
   }
-  .congrats-text p:last-child{margin-bottom:0;}
-  .congrats-text .signature{
-    font-family:var(--brief-font-heading);
-    font-size:1.4rem;
-    font-weight:600;
-    text-align:right;
-    margin-top:calc(var(--brief-space)*0.5);
-    color:var(--brief-primary);
+
+  .candle::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 14px;
+    background: radial-gradient(ellipse, var(--brief-accent) 30%, #FF8C00 70%);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(255, 213, 79, 0.8), 0 0 30px rgba(255, 213, 79, 0.5);
+    animation: flicker 0.6s ease-in-out infinite alternate;
   }
-  .repeat-btn{
-    margin-top:calc(var(--brief-space)*1.6);
-    background:var(--brief-primary);
-    color:#fff;
-    border:none;
-    border-radius:40px;
-    padding:14px 32px;
-    font-family:var(--brief-font-body);
-    font-weight:700;
-    font-size:1rem;
-    letter-spacing:.04em;
-    cursor:pointer;
-    box-shadow:0 8px 24px rgba(244,143,177,0.4);
-    transition:transform .2s ease, box-shadow .2s ease;
-    z-index:4;
+
+  @keyframes flicker {
+    from { transform: translateX(-50%) scale(1); opacity: 0.9; }
+    to { transform: translateX(-50%) scale(1.1); opacity: 1; }
   }
-  .repeat-btn:active{transform:scale(.96);box-shadow:0 4px 12px rgba(244,143,177,0.3);}
-  .confetti-container{
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    z-index:1;
-    overflow:hidden;
+
+  .candle.out {
+    opacity: 0.3;
+    cursor: default;
   }
-  .confetti-piece{
-    position:absolute;
-    top:-20px;
-    border-radius:4px;
-    opacity:.85;
-    animation:fall linear infinite;
+
+  .candle.out::after {
+    background: #666;
+    box-shadow: none;
+    animation: none;
+    opacity: 0.5;
   }
-  @keyframes fall{
-    0%{transform:translateY(-10vh) rotate(0deg);opacity:.9;}
-    100%{transform:translateY(110vh) rotate(720deg);opacity:.2;}
+
+  .cake-body {
+    width: 100%;
+    height: clamp(100px, 20vw, 160px);
+    background: linear-gradient(180deg, #2A1E3F, #1E1430);
+    border-radius: var(--brief-radius) var(--brief-radius) 8px 8px;
+    box-shadow: var(--brief-shadow), inset 0 -4px 0 rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
   }
-  .petal{
-    position:absolute;
-    top:-30px;
-    border-radius:60% 40% 60% 40%;
-    background:radial-gradient(circle at 30% 30%,#ffd9e8,#f8a5c2);
-    opacity:.75;
-    animation:fallPetal linear infinite;
+
+  .cake-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(180deg, rgba(187, 134, 252, 0.3), transparent);
+    border-radius: var(--brief-radius) var(--brief-radius) 0 0;
   }
-  @keyframes fallPetal{
-    0%{transform:translateY(-5vh) rotate(0deg) scale(1);opacity:.8;}
-    100%{transform:translateY(110vh) rotate(360deg) scale(.7);opacity:.1;}
+
+  .cake-body::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20%;
+    background: rgba(255, 213, 79, 0.15);
+    border-radius: 0 0 8px 8px;
   }
-  .screen-reader-only{
-    position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;
+
+  .cake-plate {
+    width: 110%;
+    height: 16px;
+    background: #2A1E3F;
+    border-radius: 50%;
+    margin-top: -6px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   }
-  @media (min-width:460px){
-    body{background:linear-gradient(160deg,#fce4ec,#fff0f5);}
-    .scene{border-radius:32px;box-shadow:0 20px 60px rgba(244,143,177,0.2);margin:20px 0;min-height:calc(100vh - 40px);}
+
+  .counter {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--brief-accent);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 20px rgba(255, 213, 79, 0.5);
+  }
+
+        /* Базовые элементы торта (верхний ярус и декор) */
+  .cake-top {
+    width: 62%;
+    height: clamp(55px, 11vw, 85px);
+    margin-bottom: -3px;
+    position: relative;
+    z-index: 1;
+    border-radius: 12px 12px 4px 4px;
+  }
+
+  .cake-deco {
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* ===== Дизайны тортов по стилям ===== */
+
+  /* Стиль 1 — Розовый: классический двухъярусный с кремом */
+  .style-1 .cake-top {
+    background: linear-gradient(180deg, #FFD6E4, #FFA5C8);
+    box-shadow: inset 0 -6px 0 rgba(255, 107, 157, 0.5);
+  }
+  .style-1 .cake-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 14px;
+    background: #FFF;
+    border-radius: 0 0 10px 10px;
+    opacity: 0.9;
+  }
+  .style-1 .cake-body {
+    background: linear-gradient(180deg, #FFB6D3, #F48FB1);
+    border-radius: 14px 14px 8px 8px;
+    box-shadow: inset 0 -8px 0 rgba(244, 143, 177, 0.6);
+  }
+  .style-1 .cake-body::after {
+    background: repeating-linear-gradient(90deg, #FFF 0 12px, transparent 12px 22px);
+    height: 14px;
+    opacity: 0.7;
+  }
+  .style-1 .cake-deco {
+    width: 100%;
+    height: 8px;
+    top: -20px;
+    left: 0;
+    background: radial-gradient(circle at 50% 50%, #FF6B9D 2px, transparent 3px);
+    background-size: 16px 8px;
+    opacity: 0.5;
+  }
+
+  /* Стиль 2 — Золотой: свадебный многоярусный с каплями крема */
+  .style-2 .cake-top {
+    width: 52%;
+    background: linear-gradient(180deg, #FFF8DC, #F0D48A);
+    border-radius: 6px;
+    box-shadow: inset 0 -4px 0 rgba(201, 162, 39, 0.5);
+  }
+  .style-2 .cake-top::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: repeating-linear-gradient(90deg, #FFF 0 8px, transparent 8px 16px);
+    opacity: 0.6;
+  }
+  .style-2 .cake-body {
+    background: linear-gradient(180deg, #FFF3C4, #E6C878);
+    border-radius: 10px;
+    box-shadow: inset 0 -8px 0 rgba(201, 162, 39, 0.4);
+  }
+  .style-2 .cake-body::after {
+    background: linear-gradient(180deg, transparent 40%, #C9A227 40%, #C9A227 55%, transparent 55%);
+    height: 100%;
+    opacity: 0.3;
+  }
+  .style-2 .cake-deco {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #FFF176;
+    box-shadow: 18px 6px 0 #FFF176, 36px 0 0 #FFF176;
+    top: -6px;
+    right: 18%;
+  }
+
+  /* Стиль 3 — Мятный: тортик-облачко с зефиром */
+  .style-3 .cake-top {
+    width: 68%;
+    background: linear-gradient(180deg, #D7F3F6, #9FE0E8);
+    border-radius: 50% 50% 6px 6px / 40% 40% 6px 6px;
+  }
+  .style-3 .cake-body {
+    background: linear-gradient(180deg, #B2EBF2, #80DEEA);
+    border-radius: 0 0 50% 50% / 0 0 36px 36px;
+  }
+  .style-3 .cake-body::before {
+    background: radial-gradient(circle at 20% 30%, #FFF 3px, transparent 4px),
+                radial-gradient(circle at 70% 20%, #FFF 3px, transparent 4px),
+                radial-gradient(circle at 45% 60%, #FFF 4px, transparent 5px);
+    height: 100%;
+    opacity: 0.7;
+  }
+  .style-3 .cake-deco {
+    width: 100%;
+    height: 6px;
+    top: -24px;
+    background: repeating-linear-gradient(90deg, #4DB6AC 0 10px, transparent 10px 20px);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+
+  /* Стиль 4 — Сиреневый: кусочек торта-пирога с вишней */
+  .style-4 .cake-top {
+    width: 70%;
+    background: linear-gradient(180deg, #EDD2F2, #D9AEE0);
+    border-radius: 4px 4px 0 0;
+  }
+  .style-4 .cake-top::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: #E91E63;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(233, 30, 99, 0.7);
+  }
+  .style-4 .cake-body {
+    background: linear-gradient(180deg, #E1BEE7, #BA68C8);
+    border-radius: 0 0 8px 8px;
+  }
+  .style-4 .cake-body::after {
+    background: repeating-linear-gradient(90deg, transparent 0 14px, #9C27B0 14px 16px);
+    height: 100%;
+    opacity: 0.25;
+  }
+  .style-4 .cake-deco {
+    width: 16px;
+    height: 16px;
+    background: #F48FB1;
+    border-radius: 50%;
+    top: -8px;
+    left: 12%;
+    box-shadow: 24px 4px 0 #F48FB1;
+  }
+
+  /* Стиль 5 — Персиковый: домик-пряник с посыпкой */
+  .style-5 .cake-top {
+    width: 58%;
+    background: linear-gradient(180deg, #FFE5C2, #FFC98A);
+    border-radius: 8px 8px 0 0;
+  }
+  .style-5 .cake-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 40%, #FF8A65 2px, transparent 3px),
+                radial-gradient(circle at 60% 70%, #FFD700 2px, transparent 3px),
+                radial-gradient(circle at 80% 30%, #FF7043 2px, transparent 3px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+  }
+  .style-5 .cake-body {
+    background: linear-gradient(180deg, #FFE0B2, #FFB74D);
+    border-radius: 6px 6px 10px 10px;
+  }
+  .style-5 .cake-body::after {
+    background: repeating-linear-gradient(45deg, #FFF 0 6px, transparent 6px 12px);
+    height: 100%;
+    opacity: 0.35;
+  }
+  .style-5 .cake-deco {
+    width: 100%;
+    height: 6px;
+    top: -22px;
+    background: repeating-linear-gradient(90deg, #FF7043 0 12px, #FFD700 12px 24px);
+    opacity: 0.6;
+  }
+
+  /* Вариации конверта по стилям */
+  .style-1 .envelope-back {
+    background: linear-gradient(135deg, #FFE4EC, #FFC1D4);
+  }
+  .style-1 .envelope-fold-left,
+  .style-1 .envelope-fold-right {
+    background: linear-gradient(to right, #FFD6E4, #FFC1D4);
+  }
+  .style-1 .envelope-flap {
+    background: linear-gradient(180deg, #FFB6D3, #FFC1D4);
+  }
+
+  .style-2 .envelope-back {
+    background: linear-gradient(135deg, #FFF3C4, #E6C878);
+  }
+  .style-2 .envelope-fold-left,
+  .style-2 .envelope-fold-right {
+    background: linear-gradient(to right, #FFE9A6, #E6C878);
+  }
+  .style-2 .envelope-flap {
+    background: linear-gradient(180deg, #E6C878, #FFF3C4);
+  }
+
+  .style-3 .envelope-back {
+    background: linear-gradient(135deg, #B2EBF2, #80DEEA);
+  }
+  .style-3 .envelope-fold-left,
+  .style-3 .envelope-fold-right {
+    background: linear-gradient(to right, #C9F1F6, #80DEEA);
+  }
+  .style-3 .envelope-flap {
+    background: linear-gradient(180deg, #80DEEA, #B2EBF2);
+  }
+
+  .style-4 .envelope-back {
+    background: linear-gradient(135deg, #E1BEE7, #CE93D8);
+  }
+  .style-4 .envelope-fold-left,
+  .style-4 .envelope-fold-right {
+    background: linear-gradient(to right, #E8C7EE, #CE93D8);
+  }
+  .style-4 .envelope-flap {
+    background: linear-gradient(180deg, #CE93D8, #E1BEE7);
+  }
+
+  .style-5 .envelope-back {
+    background: linear-gradient(135deg, #FFE0B2, #FFB74D);
+  }
+  .style-5 .envelope-fold-left,
+  .style-5 .envelope-fold-right {
+    background: linear-gradient(to right, #FFE5C2, #FFB74D);
+  }
+  .style-5 .envelope-flap {
+    background: linear-gradient(180deg, #FFB74D, #FFE0B2);
+  }
+
+  /* Вспышка и звёзды */
+  .flash {
+    position: fixed;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity 0.15s ease;
+  }
+
+  .flash.active {
+    opacity: 0.7;
+    animation: flashOut 0.3s ease forwards;
+  }
+
+  @keyframes flashOut {
+    0% { opacity: 0.7; }
+    100% { opacity: 0; }
+  }
+
+  .star-particle {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    z-index: 99;
+    animation: starFly 1s ease-out forwards;
+  }
+
+  @keyframes starFly {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(360deg);
+    }
+  }
+
+  /* Поздравление */
+  .congrats-scene {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--brief-spacing);
+    position: relative;
+    background: radial-gradient(ellipse at 50% 50%, rgba(187, 134, 252, 0.1) 0%, transparent 70%),
+                var(--brief-bg);
+    overflow: hidden;
+  }
+
+  .congrats-inner {
+    max-width: 650px;
+    width: 100%;
+    background: var(--brief-surface);
+    border-radius: var(--brief-radius);
+    padding: clamp(24px, 5vw, 48px);
+    box-shadow: var(--brief-shadow);
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 3vw, 28px);
+  }
+
+  .congrats-text {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    line-height: 1.5;
+    color: var(--brief-text);
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .congrats-from {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--brief-accent);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+  }
+
+  /* Шарики */
+  .balloon {
+    position: absolute;
+    width: 40px;
+    height: 50px;
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: floatBalloon 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .balloon:nth-child(1) { left: 5%; top: 20%; background: var(--brief-primary); animation-delay: 0s; }
+  .balloon:nth-child(2) { right: 5%; top: 35%; background: var(--brief-accent); animation-delay: 1.5s; }
+  .balloon:nth-child(3) { left: 8%; bottom: 25%; background: #FF6B6B; animation-delay: 3s; }
+  .balloon:nth-child(4) { right: 8%; bottom: 30%; background: #4ECDC4; animation-delay: 4.5s; }
+
+  @keyframes floatBalloon {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-25px) rotate(3deg); }
+  }
+
+  /* Переключатель стилей */
+  .style-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 200;
+  }
+
+  .style-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--brief-surface);
+    border: 2px solid var(--brief-primary);
+    color: var(--brief-text);
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: var(--brief-shadow);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .style-btn:hover {
+    transform: scale(1.1);
+    background: var(--brief-primary);
+  }
+
+  .style-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: var(--brief-surface);
+    border-radius: var(--brief-radius);
+    padding: var(--brief-spacing);
+    box-shadow: var(--brief-shadow);
+    z-index: 201;
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 220px;
+    border: 1px solid rgba(187, 134, 252, 0.3);
+  }
+
+  .style-panel.open {
+    display: flex;
+    animation: fadeInUp 0.3s ease-out;
+  }
+
+  .style-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    color: var(--brief-text);
+    font-size: 0.9rem;
+  }
+
+  .style-option:hover {
+    background: rgba(187, 134, 252, 0.15);
+  }
+
+  .style-swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+    @media (max-width: 480px) {
+    .style-panel {
+      right: 10px;
+      top: 70px;
+      min-width: 180px;
+      padding: 16px;
+    }
+
+    .style-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 1rem;
+      top: 10px;
+      right: 10px;
+    }
+
+    .balloon {
+      width: 28px;
+      height: 36px;
+    }
   }
 </style>
 </head>
 <body>
 
-<!-- Сцена 1 — Открой открытку -->
-<section class="scene" id="scene1" data-section="hero" role="main" aria-label="Открой открытку">
-  <h1 class="scene-title">Открой</h1>
-  <div class="open-card-wrap" id="openCardWrap" role="button" tabindex="0" aria-label="Открыть поздравительную открытку">
-    <div class="open-card" id="openCard">
-      <div class="card-face card-front">
-        <span class="crease-v" aria-hidden="true"></span>
-        <span class="crease-h" aria-hidden="true"></span>
-        <div class="stamp" aria-hidden="true">
-          <span class="stamp-heart">💗</span>
-          <span class="stamp-text">почта</span>
-        </div>
-        <span class="card-hint">нажми</span>
+<!-- Переключатель стилей -->
+<div class="style-switcher">
+  <button class="style-btn" onclick="toggleStylePanel()" aria-label="Выбрать стиль открытки" style="width: 50px">🎨</button>
+  <div class="style-panel" id="stylePanel">
+    <div class="style-option" onclick="setStyle(1)" data-style="1">
+      <div class="style-swatch" style="background: #FFF0F5;"></div>
+      <span>Розовая бумажная открытка</span>
+    </div>
+    <div class="style-option" onclick="setStyle(2)" data-style="2">
+      <div class="style-swatch" style="background: #FFF8E1;"></div>
+      <span>Золотой вечер</span>
+    </div>
+    <div class="style-option" onclick="setStyle(3)" data-style="3">
+      <div class="style-swatch" style="background: #E0F7FA;"></div>
+      <span>Мятная свежесть</span>
+    </div>
+    <div class="style-option" onclick="setStyle(4)" data-style="4">
+      <div class="style-swatch" style="background: #F3E5F5;"></div>
+      <span>Сиреневый закат</span>
+    </div>
+    <div class="style-option" onclick="setStyle(5)" data-style="5">
+      <div class="style-swatch" style="background: #FFF3E0;"></div>
+      <span>Персиковый рассвет</span>
+    </div>
+  </div>
+</div>
+
+<!-- Сцена 1: Конверт -->
+<section class="hero-scene" data-section="hero" id="scene1">
+  <div class="scene-inner">
+    <h1 class="scene-title">Открой</h1>
+    <div class="envelope" id="envelope" onclick="openEnvelope()">
+      <div class="envelope-back"></div>
+      <div class="envelope-fold-left"></div>
+      <div class="envelope-fold-right"></div>
+      <div class="envelope-flap" id="envelopeFlap"></div>
+      <div class="envelope-bow"></div>
+      <div class="envelope-stamp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2">
+          <path d="M12 21s-6.7-4.35-9.33-8.11C.9 10.2 2.1 7 5.5 6.5c2-.3 3.5 1 4.5 2.5 1-1.5 2.5-2.8 4.5-2.5 3.4.5 4.6 3.7 2.83 6.39C18.7 16.65 12 21 12 21z" fill="currentColor" stroke="none"/>
+        </svg>
+        <span>почта</span>
       </div>
-      <div class="flap" aria-hidden="true"></div>
+      <div class="envelope-label">почта</div>
+    </div>
+    <p style="opacity: 0.6; font-size: 0.9rem;">Нажми на конверт, чтобы открыть</p>
+  </div>
+</section>
+
+<!-- Сцена 2: Торт -->
+<section class="hero-scene" data-section="content" id="scene2" style="display: none;">
+  <div class="scene-inner">
+    <div class="cake-scene">
+      <h1 class="scene-title">Задуй свечки</h1>
+      <div class="cake">
+        <div class="cake-candles" id="candles">
+          <div class="candle" data-candle="1" onclick="blowCandle(this)"></div>
+          <div class="candle" data-candle="2" onclick="blowCandle(this)"></div>
+          <div class="candle" data-candle="3" onclick="blowCandle(this)"></div>
+          <div class="candle" data-candle="4" onclick="blowCandle(this)"></div>
+          <div class="candle" data-candle="5" onclick="blowCandle(this)"></div>
+        </div>
+        <div class="cake-deco"></div>
+        <div class="cake-top"></div>
+        <div class="cake-body"></div>
+        <div class="cake-plate"></div>
+      </div>
+      <p class="counter" id="counter">Осталось задуть: 5</p>
     </div>
   </div>
 </section>
 
-<!-- Сцена 2 — Задуй свечки -->
-<section class="scene" id="scene2" data-section="content" hidden aria-label="Задуй свечки">
-  <h2 class="scene-title">Задуй свечки</h2>
-  <div class="cake-wrap" id="cakeWrap">
-    <svg class="cake-svg" viewBox="0 0 300 260" role="img" aria-label="Праздничный торт со свечками">
-      <!-- торт -->
-      <ellipse cx="150" cy="215" rx="110" ry="26" fill="#F8BBD0"/>
-      <rect x="55" y="150" width="190" height="65" rx="12" fill="#FCE4EC"/>
-      <rect x="70" y="120" width="160" height="42" rx="10" fill="#F8BBD0"/>
-      <rect x="85" y="95" width="130" height="32" rx="8" fill="#F48FB1"/>
-      <ellipse cx="150" cy="95" rx="65" ry="16" fill="#F48FB1"/>
-      <ellipse cx="150" cy="120" rx="80" ry="18" fill="#F8BBD0"/>
-      <ellipse cx="150" cy="150" rx="95" ry="20" fill="#FCE4EC"/>
-      <!-- крем -->
-      <path d="M70 150 Q80 140 90 150 Q100 140 110 150 Q120 140 130 150 Q140 140 150 150 Q160 140 170 150 Q180 140 190 150 Q200 140 210 150 Q220 140 230 150" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".7"/>
-      <!-- свечи -->
-      <g class="candle" data-candle="1" role="button" tabindex="0" aria-label="Задуть первую свечу">
-        <rect x="118" y="48" width="8" height="48" rx="3" fill="#F8BBD0"/>
-        <ellipse cx="122" cy="48" rx="4" ry="2" fill="#F48FB1"/>
-        <g class="flame" data-flame="1">
-          <ellipse cx="122" cy="34" rx="5" ry="10" fill="#FFB74D"/>
-          <ellipse cx="122" cy="32" rx="3" ry="6" fill="#FFF3C4"/>
-        </g>
-        <g class="smoke" data-smoke="1"><circle cx="122" cy="20" r="10" fill="#ffffff"/><circle cx="114" cy="24" r="6" fill="#ffffff"/><circle cx="130" cy="24" r="6" fill="#ffffff"/></g>
-        <g class="spark" data-spark="1"><path d="M122 24 l2.5 7 l7 2.5 l-7 2.5 l-2.5 7 l-2.5 -7 l-7 -2.5 l7 -2.5 z" fill="#FFD54F"/><path d="M116 40 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z" fill="#FFF59D"/><circle cx="129" cy="36" r="2.2" fill="#FFE082"/></g>
-      </g>
-      <g class="candle" data-candle="2" role="button" tabindex="0" aria-label="Задуть вторую свечу">
-        <rect x="136" y="40" width="8" height="56" rx="3" fill="#F8BBD0"/>
-        <ellipse cx="140" cy="40" rx="4" ry="2" fill="#F48FB1"/>
-        <g class="flame" data-flame="2">
-          <ellipse cx="140" cy="26" rx="5" ry="11" fill="#FFB74D"/>
-          <ellipse cx="140" cy="24" rx="3" ry="7" fill="#FFF3C4"/>
-        </g>
-        <g class="smoke" data-smoke="2"><circle cx="140" cy="12" r="10" fill="#ffffff"/><circle cx="132" cy="16" r="6" fill="#ffffff"/><circle cx="148" cy="16" r="6" fill="#ffffff"/></g>
-        <g class="spark" data-spark="2"><path d="M140 16 l2.5 7 l7 2.5 l-7 2.5 l-2.5 7 l-2.5 -7 l-7 -2.5 l7 -2.5 z" fill="#FFD54F"/><path d="M134 32 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z" fill="#FFF59D"/><circle cx="147" cy="28" r="2.2" fill="#FFE082"/></g>
-      </g>
-      <g class="candle" data-candle="3" role="button" tabindex="0" aria-label="Задуть третью свечу">
-        <rect x="154" y="44" width="8" height="52" rx="3" fill="#F8BBD0"/>
-        <ellipse cx="158" cy="44" rx="4" ry="2" fill="#F48FB1"/>
-        <g class="flame" data-flame="3">
-          <ellipse cx="158" cy="30" rx="5" ry="10" fill="#FFB74D"/>
-          <ellipse cx="158" cy="28" rx="3" ry="6" fill="#FFF3C4"/>
-        </g>
-        <g class="smoke" data-smoke="3"><circle cx="158" cy="16" r="10" fill="#ffffff"/><circle cx="150" cy="20" r="6" fill="#ffffff"/><circle cx="166" cy="20" r="6" fill="#ffffff"/></g>
-        <g class="spark" data-spark="3"><path d="M158 20 l2.5 7 l7 2.5 l-7 2.5 l-2.5 7 l-2.5 -7 l-7 -2.5 l7 -2.5 z" fill="#FFD54F"/><path d="M152 36 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z" fill="#FFF59D"/><circle cx="165" cy="32" r="2.2" fill="#FFE082"/></g>
-      </g>
-      <g class="candle" data-candle="4" role="button" tabindex="0" aria-label="Задуть четвёртую свечу">
-        <rect x="172" y="42" width="8" height="54" rx="3" fill="#F8BBD0"/>
-        <ellipse cx="176" cy="42" rx="4" ry="2" fill="#F48FB1"/>
-        <g class="flame" data-flame="4">
-          <ellipse cx="176" cy="28" rx="5" ry="11" fill="#FFB74D"/>
-          <ellipse cx="176" cy="26" rx="3" ry="7" fill="#FFF3C4"/>
-        </g>
-        <g class="smoke" data-smoke="4"><circle cx="176" cy="14" r="10" fill="#ffffff"/><circle cx="168" cy="18" r="6" fill="#ffffff"/><circle cx="184" cy="18" r="6" fill="#ffffff"/></g>
-        <g class="spark" data-spark="4"><path d="M176 18 l2.5 7 l7 2.5 l-7 2.5 l-2.5 7 l-2.5 -7 l-7 -2.5 l7 -2.5 z" fill="#FFD54F"/><path d="M170 34 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z" fill="#FFF59D"/><circle cx="183" cy="30" r="2.2" fill="#FFE082"/></g>
-      </g>
-      <g class="candle" data-candle="5" role="button" tabindex="0" aria-label="Задуть пятую свечу">
-        <rect x="190" y="46" width="8" height="50" rx="3" fill="#F8BBD0"/>
-        <ellipse cx="194" cy="46" rx="4" ry="2" fill="#F48FB1"/>
-        <g class="flame" data-flame="5">
-          <ellipse cx="194" cy="32" rx="5" ry="10" fill="#FFB74D"/>
-          <ellipse cx="194" cy="30" rx="3" ry="6" fill="#FFF3C4"/>
-        </g>
-        <g class="smoke" data-smoke="5"><circle cx="194" cy="18" r="10" fill="#ffffff"/><circle cx="186" cy="22" r="6" fill="#ffffff"/><circle cx="202" cy="22" r="6" fill="#ffffff"/></g>
-        <g class="spark" data-spark="5"><path d="M194 22 l2.5 7 l7 2.5 l-7 2.5 l-2.5 7 l-2.5 -7 l-7 -2.5 l7 -2.5 z" fill="#FFD54F"/><path d="M188 38 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z" fill="#FFF59D"/><circle cx="201" cy="34" r="2.2" fill="#FFE082"/></g>
-      </g>
-    </svg>
+<!-- Сцена 3: Поздравление -->
+<section class="congrats-scene" data-section="summary" id="scene3" style="display: none;">
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="congrats-inner">
+    <h2 style="font-size: clamp(1.5rem, 4vw, 2.2rem); color: var(--brief-primary);">С днём рождения!</h2>
+    <p class="congrats-text" id="congratsText">С днём рождения! 🎂🎉 Пусть этот год принесёт много радости, тёплых встреч и исполнения желаний. Оставайся такой же замечательной, верь в себя и знай, что всё получится!</p>
+    <p class="congrats-from" id="congratsFrom">от Mazy 💗</p>
   </div>
-  <p class="screen-reader-only" id="candleStatus">Осталось задуть: 5</p>
 </section>
 
-<!-- Сцена 3 — Поздравление -->
-<section class="scene" id="scene3" data-section="summary" hidden aria-label="Поздравление">
-  <div class="confetti-container" id="confettiBox" aria-hidden="true"></div>
-  <div class="congrats-text">
-    <p>С днём рождения! 🎂🎉</p>
-    <p>Вот ты и задула все свечки — а значит, желание уже в пути и обязательно найдёт к тебе дорогу. С праздником! 🎈</p>
-    <p>Ты невероятно классная — с тобой легко, весело и всегда есть о чём поболтать. Любые будни рядом с тобой становятся ярче и добрее.</p>
-    <p>Желаю тебе смеяться чаще, мечтать смелее и верить в себя — у тебя точно всё получится. Пусть впереди будет много поводов для гордости и радости, а рядом — только искренние люди.</p>
-    <p>С днюхой! Оставайся собой и знай, что я всегда на твоей стороне. 💪💗</p>
-    <div class="signature">от Mazy 💗</div>
-  </div>
-  <button class="repeat-btn" id="repeatBtn">Повторить</button>
-</section>
+<!-- Вспышка -->
+<div class="flash" id="flash"></div>
+
+<!-- Схема Telegram-бота -->
+
+<!-- Код бота -->
 
 <script>
-(function(){
-  const scene1=document.getElementById('scene1');
-  const scene2=document.getElementById('scene2');
-  const scene3=document.getElementById('scene3');
-  const openCardWrap=document.getElementById('openCardWrap');
-  const openCard=document.getElementById('openCard');
-  const candles=Array.from(document.querySelectorAll('.candle'));
-  const candleStatus=document.getElementById('candleStatus');
-  const repeatBtn=document.getElementById('repeatBtn');
-  const confettiBox=document.getElementById('confettiBox');
-  let litCandles=5;
-  let transitioning=false;
-  let confettiStarted=false;
+  let currentStyle = 1;
+  let candlesLeft = 5;
+  let currentScene = 1;
 
-  function switchScene(from,to){
-    if(transitioning)return;
-    transitioning=true;
-    from.classList.add('fade-out');
-    setTimeout(()=>{
-      from.hidden=true;
-      from.classList.remove('fade-out');
-      to.hidden=false;
-      to.style.opacity='0';
-      to.style.transform='scale(.98)';
-      requestAnimationFrame(()=>{
-        to.style.transition='opacity .45s ease, transform .45s ease';
-        to.style.opacity='1';
-        to.style.transform='scale(1)';
-        setTimeout(()=>{
-          to.style.transition='';
-          transitioning=false;
-        },450);
-      });
-    },450);
+  const styles = {
+    1: { name: 'Розовая бумажная открытка', bg: '#FFF0F5', text: '#333333', primary: '#FF6B9D', accent: '#FFD700', surface: '#FFE4EC' },
+    2: { name: 'Золотой вечер', bg: '#FFF8E1', text: '#4A3000', primary: '#C9A227', accent: '#FFF176', surface: '#FFF3C4' },
+    3: { name: 'Мятная свежесть', bg: '#E0F7FA', text: '#00363A', primary: '#4DB6AC', accent: '#C0C0C0', surface: '#B2EBF2' },
+    4: { name: 'Сиреневый закат', bg: '#F3E5F5', text: '#3E1A47', primary: '#9C27B0', accent: '#F48FB1', surface: '#E1BEE7' },
+    5: { name: 'Персиковый рассвет', bg: '#FFF3E0', text: '#4E2600', primary: '#FF8A65', accent: '#FFD700', surface: '#FFE0B2' }
+  };
+
+  function toggleStylePanel() {
+    const panel = document.getElementById('stylePanel');
+    panel.classList.toggle('open');
   }
 
-  function openCardHandler(){
-    if(openCard.classList.contains('flipped'))return;
-    openCard.classList.add('flipped');
-    setTimeout(()=>{
-      switchScene(scene1,scene2);
-      // сброс открытки после перехода
-      setTimeout(()=>{
-        openCard.classList.remove('flipped');
-      },800);
-    },700);
+    function setStyle(styleNum) {
+    currentStyle = styleNum;
+    const style = styles[styleNum];
+    
+    // Убираем старый класс стиля и добавляем новый (для вариаций торта/конверта)
+    document.body.classList.remove('style-1', 'style-2', 'style-3', 'style-4', 'style-5');
+    document.body.classList.add('style-' + styleNum);
+    
+    document.documentElement.style.setProperty('--brief-bg', style.bg);
+    document.documentElement.style.setProperty('--brief-text', style.text);
+    document.documentElement.style.setProperty('--brief-primary', style.primary);
+    document.documentElement.style.setProperty('--brief-accent', style.accent);
+    document.documentElement.style.setProperty('--brief-surface', style.surface);
+    
+    document.getElementById('stylePanel').classList.remove('open');
   }
 
-  openCardWrap.addEventListener('click',openCardHandler);
-  openCardWrap.addEventListener('keydown',(e)=>{
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();openCardHandler();}
-  });
-
-  function updateCandleStatus(){
-    candleStatus.textContent='Осталось задуть: '+litCandles;
+  function openEnvelope() {
+    const envelope = document.getElementById('envelope');
+    envelope.classList.add('open');
+    
+    setTimeout(() => {
+      document.getElementById('scene1').style.display = 'none';
+      document.getElementById('scene2').style.display = 'flex';
+      currentScene = 2;
+    }, 600);
   }
 
-  function blowCandle(candle){
-    const flame=candle.querySelector('.flame');
-    const smoke=candle.querySelector('.smoke');
-    const spark=candle.querySelector('.spark');
-    if(!flame||flame.classList.contains('out'))return;
-    flame.classList.add('out');
-    smoke.classList.add('visible');
-    spark.classList.add('burst');
-    litCandles--;
-    updateCandleStatus();
-    if(litCandles===0){
-      setTimeout(()=>{
-        switchScene(scene2,scene3);
-        startConfetti();
-      },1200);
+  function blowCandle(candle) {
+    if (candle.classList.contains('out')) return;
+    
+    candle.classList.add('out');
+    candlesLeft--;
+    document.getElementById('counter').textContent = 'Осталось задуть: ' + candlesLeft;
+    
+    // Вспышка
+    const flash = document.getElementById('flash');
+    flash.classList.add('active');
+    setTimeout(() => flash.classList.remove('active'), 300);
+    
+    // Звёзды
+    const rect = candle.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top;
+    
+    for (let i = 0; i < 12; i++) {
+      const star = document.createElement('div');
+      star.className = 'star-particle';
+      star.innerHTML = '⭐';
+      star.style.left = cx + 'px';
+      star.style.top = cy + 'px';
+      star.style.fontSize = (10 + Math.random() * 16) + 'px';
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 50 + Math.random() * 120;
+      star.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+      star.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+      document.body.appendChild(star);
+      
+      setTimeout(() => star.remove(), 1000);
+    }
+    
+    if (candlesLeft === 0) {
+      setTimeout(() => {
+        document.getElementById('scene2').style.display = 'none';
+        document.getElementById('scene3').style.display = 'flex';
+        currentScene = 3;
+      }, 800);
     }
   }
 
-  candles.forEach(candle=>{
-    candle.addEventListener('click',()=>blowCandle(candle));
-    candle.addEventListener('keydown',(e)=>{
-      if(e.key==='Enter'||e.key===' '){e.preventDefault();blowCandle(candle);}
-    });
-  });
-
-  function startConfetti(){
-    if(confettiStarted)return;
-    confettiStarted=true;
-    const colors=['#F48FB1','#FFD54F','#F8BBD0','#FFAB91','#FFE082','#EC407A'];
-    for(let i=0;i<40;i++){
-      const piece=document.createElement('div');
-      piece.className='confetti-piece';
-      const size=Math.random()*8+5;
-      piece.style.width=size+'px';
-      piece.style.height=size*0.6+'px';
-      piece.style.left=Math.random()*100+'%';
-      piece.style.background=colors[Math.floor(Math.random()*colors.length)];
-      piece.style.animationDuration=(Math.random()*3+3)+'s';
-      piece.style.animationDelay=Math.random()*4+'s';
-      piece.style.transform='rotate('+Math.random()*360+'deg)';
-      confettiBox.appendChild(piece);
+  // Чтение параметров URL
+  function getURLParams() {
+    const params = new URLSearchParams(window.location.search);
+    const text = params.get('text');
+    const from = params.get('from');
+    const style = params.get('style');
+    
+    if (text) {
+      document.getElementById('congratsText').textContent = text;
     }
-    for(let i=0;i<20;i++){
-      const petal=document.createElement('div');
-      petal.className='petal';
-      const size=Math.random()*14+8;
-      petal.style.width=size+'px';
-      petal.style.height=size*0.8+'px';
-      petal.style.left=Math.random()*100+'%';
-      petal.style.animationDuration=(Math.random()*5+5)+'s';
-      petal.style.animationDelay=Math.random()*6+'s';
-      petal.style.opacity=Math.random()*0.6+0.2;
-      confettiBox.appendChild(petal);
+    if (from) {
+      document.getElementById('congratsFrom').textContent = 'от ' + from;
+    }
+    if (style && styles[style]) {
+      setStyle(parseInt(style));
     }
   }
 
-  repeatBtn.addEventListener('click',()=>{
-    if(transitioning)return;
-    // сброс свечей
-    litCandles=5;
-    updateCandleStatus();
-    candles.forEach(candle=>{
-      const flame=candle.querySelector('.flame');
-      const smoke=candle.querySelector('.smoke');
-      const spark=candle.querySelector('.spark');
-      if(flame)flame.classList.remove('out');
-      if(smoke)smoke.classList.remove('visible');
-      if(spark)spark.classList.remove('burst');
-    });
-    confettiBox.innerHTML='';
-    confettiStarted=false;
-    // переключение на сцену 1
-    switchScene(scene3,scene1);
-  });
-
-  updateCandleStatus();
-})();
+    getURLParams();
+  
+  // Применяем базовый стиль по умолчанию (если не задан в URL)
+  if (!document.body.classList.contains('style-1') && !document.body.classList.contains('style-2') &&
+      !document.body.classList.contains('style-3') && !document.body.classList.contains('style-4') &&
+      !document.body.classList.contains('style-5')) {
+    setStyle(currentStyle);
+  }
 </script>
+
 </body>
 </html>
